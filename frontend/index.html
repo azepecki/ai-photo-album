@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta http-equiv="x-ua-compatible" content="ie=edge" />
+    <title>AI Photo Album</title>
+    <!-- MDB icon -->
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <!-- Google Fonts Roboto -->
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap"
+    />
+    <!-- MDB -->
+    <link rel="stylesheet" href="css/mdb.min.css" />
+        <!-- api gateway generated sdk -->
+        <script src="./js/sdk/lib/axios/dist/axios.standalone.js"></script>
+        <script src="./js/sdk/lib/CryptoJS/rollups/hmac-sha256.js"></script>
+        <script src="./js/sdk/lib/CryptoJS/rollups/sha256.js"></script>
+        <script src="./js/sdk/lib/CryptoJS/components/hmac.js"></script>
+        <script src="./js/sdk/lib/CryptoJS/components/enc-base64.js"></script>
+        <script src="./js/sdk/lib/url-template/url-template.js"></script>
+        <script src="./js/sdk/lib/apiGatewayCore/sigV4Client.js"></script>
+        <script src="./js/sdk/lib/apiGatewayCore/apiGatewayClient.js"></script>
+        <script src="./js/sdk/lib/apiGatewayCore/simpleHttpClient.js"></script>
+        <script src="./js/sdk/lib/apiGatewayCore/utils.js"></script>
+    
+        <script src="./js/sdk/apigClient.js"></script>
+  </head>
+  <body>
+    <!-- Start your project here-->
+    <div class="container">
+      <div class="d-flex justify-content-center align-items-center" style="height: 100vh">
+        <div class="text-center">
+         <h1>AI Photo Album</h1>
+          <label class="form-label" for="photo">Upload file</label>
+          <input type="file" class="form-control" id="photo" />
+          <label class="form-label" for="labels">Labels</label>
+          <input type="text" class="form-control" id="labels" />
+          <button type="button" class="btn btn-primary" id="buttonUpload" onclick="uploadPhoto()">Upload Photo</button>
+          <p></p>
+          <label class="form-label" for="search">Search Photos</label>
+          <input type="text" class="form-control" id="search" />
+          <button type="button" class="btn btn-primary" id="buttonRecord" onclick="startRecord()">Start Recording</button>
+          <button type="button" class="btn btn-primary" id="stopRecord" onclick="stopRecord()">Stop Recording</button>
+          <button type="button" class="btn btn-primary" id="buttonSearch" onclick="searchPhotos()">Search</button>
+
+
+        </div>
+      </div>
+    </div>
+    <!-- End your project here-->
+
+    <!-- MDB -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Custom scripts -->
+    <script type="text/javascript"></script>
+    <script src="./js/search.js"></script>
+    <script src="./js/index-photos.js"></script>
+    <script>
+
+      var sdk = apigClientFactory.newClient({});
+
+    </script>
+    <script>
+      try {
+        var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        var recognition = new SpeechRecognition();
+        console.log("recognition initialized")
+    }
+    catch(e) {
+        console.error(e);
+        $('.no-browser-support').show();
+        $('.app').hide();
+    }
+recognition.onresult = function(event) {
+
+  // event is a SpeechRecognitionEvent object.
+  // It holds all the lines we have captured so far. 
+  // We only need the current one.
+  var current = event.resultIndex;
+
+  // Get a transcript of what was said.
+  var transcript = event.results[current][0].transcript;
+
+  // Add the current transcript to the contents of our Note.
+  content = document.getElementById('search').value
+  console.log(content)
+  content += transcript;
+  document.getElementById('search').value = content
+}
+    </script>
+  </body>
+</html>
