@@ -13,9 +13,9 @@ awsauth = AWS4Auth(credentials.access_key, credentials.secret_key, region, servi
 def call_lex_client(input_text, user_id):
     """Helper function"""
     resp = lex_client.post_text(
-        botName='PhotoBot',
-        botAlias='photobot',
-        userId=user_id,
+        botName='NewPhotoBot',
+        botAlias='searchphotos',
+        userId='azepecki',
         inputText=input_text,
     )
     print(f"Lex client response=[{resp}]")
@@ -43,7 +43,9 @@ def search_photos(user_id, query):
         return {
             'statusCode': 200,
             'headers': {
-				"Access-Control-Allow-Origin": "*",
+                'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
 				'Content-Type': 'application/json'
 			},
             'body': json.dumps(image_urls)
@@ -52,10 +54,12 @@ def search_photos(user_id, query):
     return {
             'statusCode': 200,
             'headers': {
-				"Access-Control-Allow-Origin": "*",
+				'Access-Control-Allow-Headers': 'Content-Type',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'OPTIONS,POST,GET',
 				'Content-Type': 'application/json'
 			},
-            'body': json.dumps("No photos found.")
+            'body': {[]}
         } 
 
 def dispatch(event, context):
